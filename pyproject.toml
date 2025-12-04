@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quantnet-mq"
+authors = [
+  { name="ESnet", email="quantum@es.net" },
+]
+description = "The schema and messaging library for the Quant-Net Control Plane"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "BSD-3-Clause-LBNL"
+license-files = ["LICEN[CS]E*"]
+dynamic = [
+    "version",
+    "dependencies"
+]
+
+[project.urls]
+Homepage = "https://github.com/quant-net/quant-net-mq"
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+version = {attr = "quantnet_mq.__version__"}
+
+[tool.setuptools.packages.find]
+include = ["quantnet_mq", "quantnet_mq.*"]

@@ -1,0 +1,44 @@
+# vim: set ts=2 sw=2 sts=2 expandtab :
+---
+asyncapi: "2.6.0"
+info:
+  description: "Quant-Net Server Q-Node Configuration"
+  title: "Q-Node Definition"
+  version: "1.0.0"
+channels: {}
+components:
+  schemas:
+    Q-Node:
+      title: QNode
+      type: object
+      required:
+        - systemSettings
+        - qubitSettings
+        - matterLightInterfaceSettings
+        - channels
+      properties:
+        systemSettings:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/System"
+        qubitSettings:
+          type: object
+          required:
+            - qubits
+            - operations
+          properties:
+            qubits:
+              type: array
+              minItems: 1
+              items:
+                $ref: "qn-schema:objects/objects.yaml#/components/schemas/Qubit"
+            operations:
+              $ref: "qn-schema:objects/objects.yaml#/components/schemas/Operation"
+        matterLightInterfaceSettings:
+          type: array
+          minItems: 1
+          items:
+            $ref: "qn-schema:objects/objects.yaml#/components/schemas/matterLightInterface"
+        channels:
+          type: array
+          minItems: 1
+          items:
+            $ref: "qn-schema:objects/objects.yaml#/components/schemas/Channel"

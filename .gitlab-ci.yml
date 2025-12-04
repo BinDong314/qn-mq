@@ -1,0 +1,8 @@
+stages:
+  - build
+  - test
+  - deploy
+
+include:
+  - local: '.gitlab/pipelines/build-publish-python.yml'
+

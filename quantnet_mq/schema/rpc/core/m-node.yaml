@@ -1,0 +1,61 @@
+# vim: set ts=2 sw=2 sts=2 expandtab :
+---
+$schema: "http://json-schema.org/draft-04/schema#"
+id: "uri:quant-net:mq:objects"
+asyncapi: "2.6.0"
+info:
+  description: "Quant-Net Server M-Node Configuration"
+  title: "M-Node Definition"
+  version: "1.0.0"
+channels: {}
+components:
+  schemas:
+    M-Node:
+      title: MNode
+      type: object
+      required:
+        - systemSettings
+        - quantumSettings
+        - channels
+      properties:
+        systemSettings:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/System"
+        quantumSettings:
+          type: object
+          required:
+            - defaultMeasurementBase
+            - flyingQubit
+            - wavelength
+            - tomographyAnalysis
+            - maxMeasurementRate
+            - detectorSettings
+          properties:
+            defaultMeasurementBase:
+              type: string
+              enum:
+                - "H"
+                - "V"
+                - "A"
+                - "D"
+                - "R"
+                - "L"
+            advancedBase:
+              type: number
+            flyingQubit:
+              $ref: "qn-schema:objects/objects.yaml#/components/schemas/FlyingQubit"
+            wavelength:
+              $ref: "qn-schema:objects/objects.yaml#/components/schemas/Scalar"
+            tomographyAnalysis:
+              type: boolean
+            maxMeasurementRate:
+              type: number
+            detectorSettings:
+              type: array
+              minItems: 2
+              items:
+                $ref: "qn-schema:objects/objects.yaml#/components/schemas/Detector"
+        channels:
+          type: array
+          minItems: 1
+          items:
+            $ref: "qn-schema:objects/objects.yaml#/components/schemas/Channel"

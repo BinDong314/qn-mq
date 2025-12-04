@@ -1,0 +1,375 @@
+# vim: set ts=2 sw=2 sts=2 expandtab :
+---
+asyncapi: "2.6.0"
+info:
+  description: "Quant-Net Node Configuration Objects"
+  title: "Node Objects"
+  version: "1.0.0"
+channels: {}
+components:
+  schemas:
+    System:
+      title: System
+      type: object
+      required:
+        - type
+        - name
+        - ID
+        - controlInterface
+      properties:
+        type:
+          type: string
+          enum:
+            - QNode
+            - BSMNode
+            - MNode
+            - OpticalSwitch
+            - QRepeater
+        name:
+          type: string
+        ID:
+          type: string
+        controlInterface:
+          type: string
+    Qubit:
+      title: Qubit
+      type: object
+      required:
+        - ID
+        - quantumObject
+        - type
+      properties:
+        ID:
+          type: string
+        quantumObject:
+          type: string
+        T1:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Scalar"
+        T2:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Scalar"
+        type:
+          type: string
+    FlyingQubit:
+      title: flyingQubit
+      type: object
+      required:
+        - type
+      properties:
+        ID:
+          type: string
+        type:
+          type: string
+          enum:
+            - "polarization"
+            - "time-bin"
+        wavelength:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Scalar"
+    Operation:
+      title: Operation
+      type: object
+      properties:
+        oneQubitGates:
+          type: array
+          minItems: 1
+          items:
+            $ref: "qn-schema:objects/objects.yaml#/components/schemas/oneQubitGate"
+        twoQubitGates:
+          type: array
+          minItems: 1
+          items:
+            $ref: "qn-schema:objects/objects.yaml#/components/schemas/twoQubitGate"
+    oneQubitGate:
+      title: oneQubitGate
+      type: object
+      required:
+        - gate
+        - qubits
+      properties:
+        gate:
+          type: string
+        qubits:
+          type: array
+          minItems: 1
+          items:
+            type: string
+    twoQubitGate:
+      title: twoQubitGate
+      type: object
+      required:
+        - gate
+        - qubits
+      properties:
+        gate:
+          type: string
+        qubits:
+          type: array
+          minItems: 1
+          items:
+            type: array
+            minItems: 2
+            maxItems: 2
+            items:
+              type: string
+    matterLightInterface:
+      title: matterLightInterface
+      type: object
+      required:
+        - ID
+        - name
+        - entanglement
+        - flyingQubit
+      properties:
+        ID:
+          type: string
+        name:
+          type: string
+        entanglement:
+          type: object
+          properties:
+            type:
+              type: string
+            entanglementGenerationRate:
+              $ref: "qn-schema:objects/objects.yaml#/components/schemas/Scalar"
+        flyingQubit:
+          $ref: 'qn-schema:objects/objects.yaml#/components/schemas/FlyingQubit'
+    Channel:
+      title: Channel
+      type: object
+      required:
+        - ID
+        - name
+        - type
+        - direction
+        - wavelength
+        - power
+        - neighbor
+      additionalProperties: false
+      properties:
+        ID:
+          type: string
+        name:
+          type: string
+        interface:
+          type: string
+          description: "The local Node interface"
+        type:
+          type: string
+        direction:
+          type: string
+          enum:
+            - in
+            - out
+        wavelength:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Scalar"
+        power:
+          type: number
+        neighbor:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Neighbor"
+    Neighbor:
+      title: Neighbor
+      type: object
+      additionalProperties: false
+      properties:
+        idRef:
+          type: string
+          description: "The remote port identifier as a URN"
+        systemRef:
+          type: string
+          description: "The remote system ID"
+        channelRef:
+          type: string
+          description: "The remote channel ID"
+        type:
+          type: string
+          enum:
+            - QNode
+            - BSMNode
+            - MNode
+            - OpticalSwitch
+        loss:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Scalar"
+    Detector:
+      title: Detector
+      type: object
+      required:
+        - name
+        - efficiency
+        - darkCount
+        - countRate
+        - timeResolution
+      properties:
+        name:
+          type: string
+        efficiency:
+          type: string
+        darkCount:
+          type: string
+        countRate:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Scalar"
+        timeResolution:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Scalar"
+    Port:
+      title: Port
+      type: object
+      required:
+        - port-id
+        - status
+        - peer-port
+      properties:
+        port-id:
+          type: string
+        status:
+          type: string
+        peer-port:
+          type: string
+    Pair:
+      title: Pair
+      type: object
+      required:
+        - ingress
+        - egress
+      properties:
+        ingress:
+          type: string
+        egress:
+          type: string
+    Interface:
+      title: Interface
+      type: object
+      required:
+        - name
+        - ip-address
+        - hw-addr
+      properties:
+        name:
+          type: string
+        ip-address:
+          type: string
+        hw-addr:
+          type: string
+    Authorized-key:
+      title: Authorized-key
+      type: object
+      required:
+        - name
+        - type
+        - password
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        password:
+          type: string
+    User:
+      title: User
+      type: object
+      required:
+        - name
+        - type
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        password:
+          type: string
+        authorized-keys:
+          type: array
+          minItems: 1
+          items:
+            $ref: "qn-schema:objects/objects.yaml#/components/schemas/Authorized-key"
+    Scalar:
+      title: Scalar
+      type: object
+      required:
+        - value
+        - unit
+      properties:
+        value:
+          type: number
+        unit:
+          type: string
+    Status:
+      title: Status
+      type: object
+      required:
+        - code
+        - value
+      properties:
+        code:
+          type: number
+        value:
+          type: string
+          enum:
+            - OK
+            - CANCELLED
+            - UNKNOWN
+            - INVALID_ARGUMENT
+            - NOT_FOUND
+            - ALREADY_EXISTS
+            - FAILED
+            - QUEUED
+        reason:
+          type: string
+        message:
+          type: string
+        details:
+          type: array
+          minItems: 0
+          items:
+            type: string
+    CalibrationType:
+      title: calibrationType
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: number
+          enum:
+            - 1
+            - 2
+        name:
+          type: string
+          enum:
+            - "Link Stabilization"
+            - "BSM Polarization"
+        description:
+          type: string
+    Schedule:
+      title: Schedule
+      type: object
+      required: 
+        - timeslots
+      properties:
+        timeslots:
+          type: string
+    Parameter:
+      title: Parameter
+      type: object
+      required:
+        - name
+        - value
+      properties:
+        name:
+          type: string
+        value:
+          oneOf:
+          - type: string
+          - type: integer
+          - type: number
+    Path:
+      title: Path
+      type: object
+      required:
+        - hops
+      properties:
+        name:
+          type: string
+        hops:
+          type: array
+          minItems: 0
+          items:
+            type: object

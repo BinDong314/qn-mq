@@ -1,0 +1,59 @@
+---
+asyncapi: "2.6.0"
+id: "urn:gov:quant-net"
+info:
+  description: "Quant-Net Client RPC Scheduler Handler"
+  title: "RPC Scheduler Endpoint"
+  version: "1.0.0"
+channels: {}
+components:
+  messages:    
+    GetScheduleMessage:
+      name: GetScheduleMessage
+      messageId: getschedule.message
+      payload:
+        "$ref": "#/components/schemas/GetSchedule"
+    GetScheduleResponseMessage:
+      name: GetScheduleResponseMessage
+      messageId: getschedule.response.message
+      payload:
+        "$ref": "#/components/schemas/GetScheduleResponse"
+  schemas:
+    GetSchedule:
+      title: getSchedule
+      type: object
+      required:
+        - cmd
+        - agentId
+        - payload
+      properties:
+        cmd:
+          type: string
+        agentId:
+          type: string
+        payload:
+          type: object
+          required:
+            - startTime
+            - slotSize
+            - numSlots
+          properties:
+            startTime:
+              type: number
+            slotSize: 
+              type: number
+            numSlots: 
+              type: integer
+    GetScheduleResponse:
+      title: getScheduleResponse
+      type: object
+      required:
+        - status        
+      properties:
+        status:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Status"
+        payload:
+          oneOf:
+            - type: string
+            - $ref: "qn-schema:objects/objects.yaml#/components/schemas/Schedule"
+defaultContentType: application/json

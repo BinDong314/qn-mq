@@ -1,0 +1,64 @@
+{
+  "systemSettings": {
+    "type": "MNode",
+    "name": "mnode1.berkeley.edu",
+    "ID": "UCB-M",
+    "controlInterface": "128.3.134.54"
+  },
+  "quantumSettings": {
+    "defaultMeasurementBase": "H",
+    "advancedBase": 0.1,
+    "flyingQubit": {
+      "type": "polarization"
+    },
+    "wavelength": {"value": 1550,  "unit": "nm"},
+    "tomographyAnalysis": true,
+    "maxMeasurementRate": 10,
+    "detectorSettings": [
+      {
+        "name": "detector_1",
+        "efficiency": "0.99",
+        "darkCount": "1",
+        "countRate": {"value": 1000,  "unit": "Hz"},
+        "timeResolution": {"value": 100,  "unit": "ns"}
+      },
+      {
+        "name": "detector_2",
+        "efficiency": "0.99",
+        "darkCount": "1",
+        "countRate": {"value": 1000,  "unit": "Hz"},
+        "timeResolution": {"value": 100,  "unit": "ns"}
+      },
+      {
+        "name": "detector_3",
+        "efficiency": "0.99",
+        "darkCount": "1",
+        "countRate": {"value": 1000,  "unit": "Hz"},
+        "timeResolution": {"value": 100,  "unit": "ns"}
+      },
+      {
+        "name": "detector_4",
+        "efficiency": "0.99",
+        "darkCount": "1",
+        "countRate": {"value": 1000,  "unit": "Hz"},
+        "timeResolution": {"value": 100,  "unit": "ns"}
+      }
+    ]
+  },
+  "channels": [
+    {
+      "ID": "1",
+      "name": "channel_1",
+      "type": "quantum",
+      "direction": "in",
+      "wavelength": {"value": 1550,  "unit": "nm"},
+      "power": -3.2,
+      "neighbor": {
+        "idRef": "urn:quant-net:UCB-SWITCH:*:21",
+        "systemRef": "UCB-SWITCH",
+        "channelRef": "21",
+        "type": "OpticalSwitch"
+      }
+    }
+  ]
+}

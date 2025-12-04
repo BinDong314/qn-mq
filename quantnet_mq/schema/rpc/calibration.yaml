@@ -1,0 +1,193 @@
+---
+asyncapi: "2.6.0"
+id: "urn:gov:quant-net"
+info:
+  description: "Quant-Net Client RPC Calibration Handler"
+  title: "RPC Calibration Endpoint"
+  version: "1.0.0"
+channels:
+  rpc/calibration/.agent-id:
+    subscribe:
+      operationId: "calibration"
+      x-function-name: sub
+      message:
+        $ref: "#/components/messages/CalibrationMessage"
+  rpc-res/calibration/.server-id:
+    publish:
+      operationId: calibration.response
+      x-function-name: pub
+      message:
+        $ref: "#/components/messages/CalibrationResponseMessage"
+components:
+  messages:
+    CalibrationSrcInitMessage:
+      name: CalibrationSrcInitMessage
+      messageId: calibration.srcInitMessage
+      payload:
+        "$ref": "#/components/schemas/SrcInit"
+    CalibrationSrcInitResponseMessage:
+      name: CalibrationSrcInitResponseMessage
+      messageId: calibration.srcInitResponse.message
+      payload:
+        "$ref": "#/components/schemas/SrcInitResponse"
+    CalibrationDstInitMessage:
+      name: CalibrationDstInitMessage
+      messageId: calibration.dstInitmessage
+      payload:
+        "$ref": "#/components/schemas/DstInit"
+    CalibrationDstInitResponseMessage:
+      name: CalibrationDstInitResponseMessage
+      messageId: calibration.dstInitResponse.message
+      payload:
+        "$ref": "#/components/schemas/DstInitResponse"
+    CalibrationGenerationMessage:
+      name: CalibrationGenerationMessage
+      messageId: calibration.generationMessage
+      payload:
+        "$ref": "#/components/schemas/Generation"
+    CalibrationGenerationResponseMessage:
+      name: CalibrationGenerationResponseMessage
+      messageId: calibration.generationResponse.message
+      payload:
+        "$ref": "#/components/schemas/GenerationResponse"
+    CalibrationMessage:
+      name: CalibrationMessage
+      messageId: calibration.message
+      payload:
+        "$ref": "#/components/schemas/Calibration"
+    CalibrationResponseMessage:
+      name: CalibrationResponseMessage
+      messageId: calibration.response.message
+      payload:
+        "$ref": "#/components/schemas/CalibrationResponse"
+    CalibrationCleanUpMessage:
+      name: CalibrationCleanupMessage
+      messageId: calibration.cleanUpMessage
+      payload:
+        "$ref": "#/components/schemas/CleanUp"
+    CalibrationCleanUpResponseMessage:
+      name: CalibrationCleanupResponseMessage
+      messageId: calibration.cleanUpResponse.message
+      payload:
+        "$ref": "#/components/schemas/CleanUpResponse"
+  schemas:
+    SrcInit:
+      title: srcInit
+      type: object
+      required:
+      - cmd
+      - agentId
+      - payload
+      properties:
+        cmd:
+          type: string
+        agentId:
+          type: string
+        payload:
+          type: object          
+          required:
+            - power
+          properties:
+            power:
+              type: number
+    SrcInitResponse:
+      title: srcInitResponse
+      type: object
+      required:
+      - status
+      properties:
+        status:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Status"
+    DstInit:
+      title: dstInit
+      type: object
+      required:
+      - cmd
+      - agentId
+      properties:
+        cmd:
+          type: string
+        agentId:
+          type: string
+    DstInitResponse:
+      title: dstInitResponse
+      type: object
+      required:
+      - status
+      properties:
+        status:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Status"
+    Generation:
+      title: generation
+      type: object
+      required:
+      - cmd
+      - agentId
+      - payload
+      properties:
+        cmd:
+          type: string
+        agentId:
+          type: string
+        payload:
+          type: object          
+          required:
+            - cal_light
+          properties:
+            cal_light:
+              type: string
+    GenerationResponse:
+      title: generationResponse
+      type: object
+      required:
+      - status
+      properties:
+        status:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Status"
+    Calibration:
+      title: calibration
+      type: object
+      required:
+      - cmd
+      - agentId
+      - payload
+      properties:
+        cmd:
+          type: string
+        agentId:
+          type: string
+        payload:
+          type: object          
+          required:
+            - cal_light
+          properties:
+            cal_light:
+              type: string
+    CalibrationResponse:
+      title: calibrationResponse
+      type: object
+      required:
+      - status
+      properties:
+        status:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Status"
+    CleanUp:
+      title: cleanUp
+      type: object
+      required:
+      - cmd
+      - agentId
+      properties:
+        cmd:
+          type: string
+        agentId:
+          type: string
+    CleanUpResponse:
+      title: cleanUpResponse
+      type: object
+      required:
+      - status
+      properties:
+        status:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Status"
+defaultContentType: application/json

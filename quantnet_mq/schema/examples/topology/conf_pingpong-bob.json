@@ -1,0 +1,101 @@
+{
+  "systemSettings": {
+    "type": "QNode",
+    "name": "bob.lbl.gov",
+    "ID": "BOB",
+    "controlInterface": "10.0.0.3",
+    "mode": "daemon",
+    "threads": 3,
+    "workers": 3
+  },
+  "qubitSettings": {
+    "qubits": [
+      {
+        "ID": "1",
+        "quantumObject": "trapped_ion",
+        "T1": {"value": 1.5,  "unit": "s"},
+        "T2": {"value": 1.1,  "unit": "s"},
+        "type": "communication"
+      },
+      {
+        "ID": "2",
+        "quantumObject": "trapped_ion",
+        "T1": {"value": 1.5,  "unit": "s"},
+        "T2": {"value": 1.1,  "unit": "s"},
+        "type": "communication"
+      }
+    ],
+    "operations": {
+      "oneQubitGates": [
+        {
+          "gate": "rot_x",
+          "qubits": ["1", "2"]
+        },
+        {
+          "gate": "rot_y",
+          "qubits": ["1", "2"]
+        },
+        {
+          "gate": "rot_z",
+          "qubits": ["1", "2"]
+        }
+      ],
+      "twoQubitGates": [
+        {
+          "gate": "cnot",
+          "qubits": [["1","2"]]
+        },
+        {
+          "gate": "cphase",
+          "qubits": [["1","2"]]
+        }
+      ]
+    }
+  },
+  "matterLightInterfaceSettings": [
+    {
+      "ID": "1",
+      "name": "Interface 1",
+      "entanglement": {
+        "type": "∣Φ+⟩",
+        "rate": {"value": 1000,  "unit": "Hz"}
+      },
+      "flyingQubit": {
+        "type": "polarization",
+        "wavelength": {"value": 1550,  "unit": "nm"}
+      }
+    }
+  ],
+  "channels": [
+    {
+      "ID": "1",
+      "name": "channel_1",
+      "type": "heraldedconnection",
+      "direction": "in",
+      "wavelength": {"value": 1550,  "unit": "nm"},
+      "power": 12.1,
+      "neighbor": {
+        "idRef": "urn:quant-net:ALICE:1",
+        "systemRef": "ALICE",
+        "channelRef": "1",
+        "loss": {"value": 5,  "unit": "dB"}
+      }
+    },
+    {
+      "ID": "2",
+      "name": "channel_2",
+      "type": "classicaldirectConnection",
+      "direction": "in",
+      "wavelength": {"value": 1550,  "unit": "nm"},
+      "power": 12.1,
+      "neighbor": {
+        "idRef": "urn:quant-net:ALICE:2",
+        "systemRef": "ALICE",
+        "channelRef": "2",
+        "loss": {"value": 5,  "unit": "dB"}
+      }
+    }
+  ]
+}
+
+

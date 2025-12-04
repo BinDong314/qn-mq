@@ -1,0 +1,69 @@
+{
+  "systemSettings": {
+    "type": "OpticalSwitch",
+    "name": "switch1",
+    "ID": "MYSWITCH",
+    "controlInterface": "10.0.0.11",
+    "mode": "daemon",
+    "threads": 5,
+    "workers": 5
+  },
+  "channels": [
+      {
+        "ID": "1",
+        "name": "channel_1",
+        "type": "classic_photon_gen",
+        "direction": "out",
+        "wavelength": {"value": 1000,  "unit": "nm"},
+        "power": 2.3,
+        "neighbor": {
+          "idRef": "urn:quant-net:MYBSM:*:11",
+          "systemRef": "MYBSM",
+          "channelRef": "11",
+	      "type": "BSMNode"
+        }
+      },
+      {
+        "ID": "2",
+        "name": "channel_2",
+        "type": "classic_bsm_result",
+        "direction": "in",
+        "wavelength": {"value": 1310,  "unit": "nm"},
+        "power": 1.4,
+        "neighbor": {
+          "idRef": "urn:quant-net:MYBSM:*:12",
+          "systemRef": "MYBSM",
+          "channelRef": "12",
+	      "type": "BSMNode"
+        }
+      },
+      {
+        "ID": "3",
+        "name": "channel_3",
+        "type": "quantum",
+        "direction": "in",
+        "wavelength": {"value": 1550,  "unit": "nm"},
+        "power": -3.2,
+        "neighbor": {
+          "idRef": "urn:quant-net:MYQ:*:4",
+	      "systemRef": "MYQ",
+          "channelRef": "4",
+	      "type": "QNode"
+        }
+      },
+      {
+        "ID": "4",
+        "name": "channel_4",
+        "type": "quantum",
+        "direction": "out",
+        "wavelength": {"value": 1000,  "unit": "nm"},
+        "power": 2.3,
+        "neighbor": {
+          "idRef": "urn:quant-net:MYM:*:1",
+          "systemRef": "MYM",
+          "channelRef": "1",
+	      "type": "MNode"
+        }
+      }
+    ]
+}

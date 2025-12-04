@@ -1,0 +1,48 @@
+# vim: set ts=2 sw=2 sts=2 expandtab :
+---
+$schema: "http://json-schema.org/draft-04/schema#"
+id: "uri:quant-net:mq:objects"
+asyncapi: "2.6.0"
+info:
+  description: "Quant-Net Server BSM-Node Configuration"
+  title: "BSM-Node Definition"
+  version: "1.0.0"
+channels: {}
+components:
+  schemas:
+    BSM-Node:
+      title: BSMNode
+      type: object
+      required:
+        - systemSettings
+        - quantumSettings
+        - channels
+      properties:
+        systemSettings:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/System"
+        quantumSettings:
+          type: object
+          required:
+            - bellStates
+            - measurementRate
+            - qubitEncoding
+            - detectorSettings
+          properties:
+            bellStates:
+              type: array
+              minItems: 1
+              items:
+                type: string
+            measurementRate:
+              type: number
+            qubitEncoding:
+              type: string
+            detectorSettings:
+              type: array
+              items:
+                $ref: "qn-schema:objects/objects.yaml#/components/schemas/Detector"
+        channels:
+          type: array
+          minItems: 1
+          items:
+            $ref: "qn-schema:objects/objects.yaml#/components/schemas/Channel"

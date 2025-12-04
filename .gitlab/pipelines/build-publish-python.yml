@@ -1,0 +1,48 @@
+image: python:3.10
+
+# Change pip's cache directory to be inside the project directory since we can
+# only cache local items.
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  PACKAGE_NAME: "quant-net-mq" 
+
+# https://pip.pypa.io/en/stable/topics/caching/
+cache:
+  paths:
+    - .cache/pip
+
+before_script:
+  # Set up SSH for private Git dependencies (if needed)
+  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  - chmod 400 "$GITHUB_SSH_KEY"
+  - ssh-add "$GITHUB_SSH_KEY"
+  - mkdir -p -m 700 ~/.ssh
+  - ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+  # Update pip and install required dependencies
+  - python --version ; pip --version  # For debugging
+  - pip install --upgrade pip setuptools wheel
+  - pip --version
+  - pip install virtualenv
+  - virtualenv venv
+  - source venv/bin/activate
+
+build_package:
+  stage: build
+  script:
+    - pip install -r requirements.txt
+    - python setup.py sdist bdist_wheel
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 week
+
+publish_package:
+  stage: deploy
+  script:
+    - pip install twine
+    - TWINE_PASSWORD=${CI_JOB_TOKEN} TWINE_USERNAME=gitlab-ci-token python -m twine upload --repository-url ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi --verbose dist/* --skip-existing
+  only:
+    - develop
+    - tags

@@ -1,0 +1,132 @@
+---
+asyncapi: "2.6.0"
+info:
+  description: "Quant-Net Client RPC Simulation Handler"
+  title: "RPC Simulation Endpoint"
+  version: "1.0.0"
+channels:
+  rpc/simulation/.agent-id:
+    subscribe:
+      operationId: "simulation"
+      x-function-name: sub
+      message:
+        $ref: "#/components/messages/SimulationMessage"
+  rpc-res/simulation/.server-id:
+    publish:
+      operationId: simulation.response
+      x-function-name: pub
+      message:
+        $ref: "#/components/messages/SimulationResponseMessage"
+components:
+  messages:
+    SimulationMessage:
+      name: SimulationMessage
+      messageId: simulation.message
+      payload:
+        "$ref": "#/components/schemas/Simulation"
+    SimulationResponseMessage:
+      name: SimulationResponseMessage
+      messageId: simulation.response.message
+      payload:
+        "$ref": "#/components/schemas/SimulationResponse"
+  schemas:
+    Simulation:
+      title: simulation
+      type: object
+      required:
+      - cmd
+      - agentId
+      - payload
+      properties:
+        cmd:
+          type: string
+        agentId:
+          type: string
+        payload:
+          type: object          
+          required:
+            - name
+          properties:
+            name:
+              type: string
+    SimulationResponse:
+      title: simulationResponse
+      type: object
+      required:
+      - status
+      properties:
+        status:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Status"
+    Delegation:
+      title: delegation
+      type: object
+      required:
+      - cmd
+      - agentId
+      - payload
+      properties:
+        cmd:
+          type: string
+        agentId:
+          type: string
+        payload:
+          type: object
+          required:
+          - node
+          - device
+          - data
+          properties:
+            node:
+              type: string
+            device:
+              type: string
+            data:
+              type: object
+    DelegationResponse:
+      title: delegationResponse
+      type: object
+      required:
+      - status
+      properties:
+        status:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Status"
+    DelegationResult:
+      title: delegationResult
+      type: object
+      required:
+      - cmd
+      - agentId
+      - payload
+      properties:
+        cmd:
+          type: string
+        agentId:
+          type: string
+        payload:
+          type: object
+          required:
+          - node
+          - device
+          - data
+          properties:
+            node:
+              type: string
+            device:
+              type: string
+            data:
+              type: object
+    Message:
+      title: message
+      type: object
+      required:
+        - node
+        - device
+        - data
+      properties:
+        node:
+          type: string
+        device:
+          type: string
+        data:
+          type: object
+defaultContentType: application/json

@@ -1,0 +1,109 @@
+{
+  "systemSettings": {
+    "type": "BSMNode",
+    "name": "bsm-node1",
+    "ID": "MYBSM",
+    "controlInterface": "10.0.0.11",
+    "mode": "daemon",
+    "threads": 5,
+    "workers": 5
+  },
+  "quantumSettings": {
+    "bellStates": [
+      "∣Φ+⟩",
+      "∣Φ−⟩",
+      "∣Ψ+⟩",
+      "∣Ψ−⟩"
+    ],
+    "measurementRate": 1000,
+    "qubitEncoding": "polarization",
+    "detectorSettings": [
+      {
+        "name": "detector_1",
+        "efficiency": "0.99",
+        "darkCount": "1",
+        "countRate": {"value": 1000,  "unit": "Hz"},
+        "timeResolution": {"value": 100,  "unit": "ns"}
+      },
+      {
+        "name": "detector_2",
+        "efficiency": "0.99",
+        "darkCount": "1",
+        "countRate": {"value": 1000,  "unit": "Hz"},
+        "timeResolution": {"value": 100,  "unit": "ns"}
+      },
+      {
+        "name": "detector_3",
+        "efficiency": "0.99",
+        "darkCount": "1",
+        "countRate": {"value": 1000,  "unit": "Hz"},
+        "timeResolution": {"value": 100,  "unit": "ns"}
+      },
+      {
+        "name": "detector_4",
+        "efficiency": "0.99",
+        "darkCount": "1",
+        "countRate": {"value": 1000,  "unit": "Hz"},
+        "timeResolution": {"value": 100,  "unit": "ns"}
+      }
+    ]
+  },
+  "channels": [
+    {
+      "ID": "1",
+      "name": "channel_1",
+      "type": "classic_photon_gen",
+      "direction": "out",
+      "wavelength": {"value": 1000,  "unit": "nm"},
+      "power": 2.3,
+      "neighbor": {
+        "idRef": "urn:quant-net:MYQ:*:4",
+        "systemRef": "MYQ",
+        "channelRef": "4",
+        "type": "QNode"
+      }
+    },
+    {
+      "ID": "2",
+      "name": "channel_2",
+      "type": "classic_bsm_result",
+      "direction": "out",
+      "wavelength": {"value": 1310,  "unit": "nm"},
+      "power": 1.4,
+      "neighbor": {
+        "idRef": "urn:quant-net:MYQ:*:3",
+        "systemRef": "MYQ",
+        "channelRef": "3",
+        "type": "QNode"
+      }
+    },
+    {
+      "ID": "3",
+      "name": "channel_3",
+      "type": "classic_clk",
+      "direction": "out",
+      "wavelength": {"value": 1310,  "unit": "nm"},
+      "power": 4.4,
+      "neighbor": {
+        "idRef": "urn:quant-net:MYQ:*:2",
+        "systemRef": "MYQ",
+        "channelRef": "2",
+        "type": "QNode"
+      }
+    },
+    {
+      "ID": "4",
+      "name": "channel_4",
+      "type": "quantum",
+      "direction": "in",
+      "wavelength": {"value": 1550,  "unit": "nm"},
+      "power": -3.2,
+      "neighbor": {
+        "idRef": "urn:quant-net:MYQ:*:1",
+        "systemRef": "MYQ",
+        "channelRef": "1",
+        "type": "QNode"
+      }
+    }
+  ]
+}

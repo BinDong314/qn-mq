@@ -1,0 +1,273 @@
+# vim: set ts=2 sw=2 sts=2 expandtab :
+---
+asyncapi: "2.6.0"
+info:
+  description: "Quant-Net Server RPC Registration Handler"
+  title: "RPC Register Endpoint"
+  version: "1.0.0"
+channels:
+  rpc/qn-server:
+    subscribe:
+      operationId: "registration"
+      x-function-name: sub
+      message:
+        $ref: "#/components/messages/RegisterMessage"
+  rpc-res/.agent-id:
+    publish:
+      operationId: "registration.response"
+      x-function-name: pub
+      message:
+        $ref: "#/components/messages/RegisterResponseMessage"
+components:
+  messages:
+    RegisterMessage:
+      name: agentRegisterMessage
+      messageId: "registration.message"
+      payload:
+        $ref: "#/components/schemas/Register"
+    RegisterResponseMessage:
+      name: agentRegisterResponseMessage
+      messageId: "registration.response.message"
+      payload:
+        $ref: "#/components/schemas/RegisterResponse"
+    CalibrationMessage:
+      name: agentCalibrationMessage
+      messageId: "agentCalibration.message"
+      payload:
+        $ref: "#/components/schemas/Calibration"
+    CalibrationResponseMessage:
+      name: agentCalibrationResponseMessage
+      messageId: "agentCalibration.response.message"
+      payload:
+        $ref: "#/components/schemas/CalibrationResponse"
+    ExperimentMessage:
+      name: agentExperimentMessage
+      messageId: "agentExperiment.message"
+      payload:
+        $ref: "#/components/schemas/Experiment"
+    ExperimentResponseMessage:
+      name: agentExperimentResponseMessage
+      messageId: "agentExperiment.response.message"
+      payload:
+        $ref: "#/components/schemas/ExperimentResponse"
+  schemas:
+    Register:
+      title: agentRegister
+      type: object
+      required:
+        - cmd
+        - agentId
+        - payload
+      properties:
+        cmd:
+          type: string
+        agentId:
+          type: string
+        payload:
+          oneOf:
+            - $ref: "../core/q-node.yaml#/components/schemas/Q-Node"
+            - $ref: "../core/bsm-node.yaml#/components/schemas/BSM-Node"
+            - $ref: "../core/m-node.yaml#/components/schemas/M-Node"
+            - $ref: "../core/optical-switch.yaml#/components/schemas/Optical-Switch"
+    RegisterResponse:
+      title: agentRegisterResponse
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Status"
+    Deregister:
+      title: agentDeregister
+      type: object
+      required:
+        - cmd
+        - agentId
+      properties:
+        cmd:
+          type: string
+        agentId:
+          type: string
+    DeregisterResponse:
+      title: agentDeregisterResponse
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Status"
+    GetInfo:
+      title: getInfo
+      type: object
+      required:
+        - cmd
+        - agentId
+        - payload
+      properties:
+        cmd:
+          type: string
+        agentId:
+          type: string
+        payload:
+          type: object
+          required:
+            - type
+            - parameters
+          properties:
+            type:
+              type: string
+            parameters:
+              type: object
+    GetInfoResponse:
+      title: getInfoResponse
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Status"
+        value:
+          type: array
+          minItems: 0
+          items:
+            type: object
+    Calibration:
+      title: agentCalibration
+      type: object
+      required:
+        - cmd
+        - agentId
+        - payload
+      properties:
+        cmd:
+          type: string
+        agentId:
+          type: string
+        payload:
+          type: object
+          required:
+            - type
+            - parameters
+          properties:
+            type:
+              type: string
+            parameters:
+              type: object
+              properties:
+                id:
+                  type: string
+                type: 
+                  type: number
+                src:
+                  type: string
+                dst:
+                  type: string
+                power:
+                  type: number
+                cal_light:
+                  type: string
+    CalibrationResponse:
+      title:  agentCalibrationResponse
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Status"
+    Simulation:
+      title: agentSimulation
+      type: object
+      required:
+        - cmd
+        - agentId
+        - payload
+      properties:
+        cmd:
+          type: string
+        agentId:
+          type: string
+        payload:
+          type: object
+          required:
+            - type
+            - parameters
+          properties:
+            type:
+              type: string
+            parameters:
+              type: object
+              properties:
+                name:
+                  type: string
+                agent:
+                  type: string
+                params:
+                  type: object
+    SimulationResponse:
+      title:  agentSimulationResponse
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Status"
+    RPCResponse:
+      title: rpcResponse
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Status"
+        reason:
+          type: string
+    Experiment:
+      title: agentExperiment
+      type: object
+      required:
+        - cmd
+        - agentId
+        - payload
+      properties:
+        cmd:
+          type: string
+        agentId:
+          type: string
+        payload:
+          type: object
+          required:
+            - type
+            - parameters
+          properties:
+            type:
+              type: string
+            parameters:
+              type: object
+              required:
+                - agentIds
+                - expName
+                - expParameters
+              properties:
+                id:
+                  type: string
+                agentIds:
+                  type: array
+                  minItems: 1
+                  items:
+                    type: string
+                expName:
+                  type: string
+                expParameters:
+                  type: array
+                  minItems: 0
+                  items:
+                    $ref: "qn-schema:objects/objects.yaml#/components/schemas/Parameter"
+    ExperimentResponse:
+      title:  agentExperimentResponse
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Status"    
+defaultContentType: application/json

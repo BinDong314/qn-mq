@@ -1,0 +1,10 @@
+{
+  "cmd": "get_info",
+  "agentId": "example-agent",
+  "payload": {
+    "type": "topology",
+    "parameters": {
+      "filter": {"id": "LBNL-Q"}
+    }
+  }
+}

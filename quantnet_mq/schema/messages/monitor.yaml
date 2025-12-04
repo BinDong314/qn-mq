@@ -1,0 +1,44 @@
+---
+asyncapi: "2.6.0"
+id: "urn:gov:quant-net"
+info:
+  description: "Quant-Net Monitor Handler"
+  title: "MSG Monitor Endpoint"
+  version: "1.0.0"
+channels: {}
+components:
+  messages:
+    MonitorMessage:
+      name: monitorMessage
+      messageId: monitorMessage.message
+      payload:
+        "$ref": "#/components/schemas/update"    
+  schemas:
+    update:
+      title: MonitorEvent
+      type: object
+      required:
+        - rid
+        - ts
+        - eventType
+        - value
+      properties:
+        rid:
+          type: string
+        ts:
+          type: number
+        eventType:
+          type: string
+          enum:
+            - agentState
+            - experimentResult
+            - agentHeartbeat
+            - agentTaskSchedulerPhase
+            - agentTaskSchedulerTask
+        value:
+          oneOf:
+          - type: string
+          - type: integer
+          - type: number
+          - type: object
+defaultContentType: application/json

@@ -1,0 +1,5 @@
+include README.md
+include LICENSE
+include COPYRIGHT
+include requirements.txt
+recursive-include quantnet_mq/schema *

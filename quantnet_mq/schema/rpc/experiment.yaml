@@ -1,0 +1,288 @@
+---
+asyncapi: "2.6.0"
+id: "urn:gov:quant-net"
+info:
+  description: "Quant-Net Client RPC Experiment Handler"
+  title: "RPC Experiment Endpoint"
+  version: "1.0.0"
+channels: {}
+components:
+  messages:    
+    SubmitMessage:
+      name: SubmitMessage
+      messageId: submit.message
+      payload:
+        "$ref": "#/components/schemas/Submit"
+    SubmitResponseMessage:
+      name: SubmitResponseMessage
+      messageId: submit.response.message
+      payload:
+        "$ref": "#/components/schemas/SubmitResponse"
+    ExperimentCleanUpMessage:
+      name: ExperimentCleanupMessage
+      messageId: experiment.cleanUpMessage
+      payload:
+        "$ref": "#/components/schemas/CleanUp"
+    ExperimentCleanUpResponseMessage:
+      name: ExperimentCleanupResponseMessage
+      messageId: experiment.cleanUpResponse.message
+      payload:
+        "$ref": "#/components/schemas/CleanUpResponse"
+    GetStateMessage:
+      name: GetStateMessage
+      messageId: experiment.getState.message
+      payload:
+        "$ref": "#/components/schemas/GetState"
+    GetStateResponseMessage:
+      name: GetStateResponseMessage
+      messageId: experiment.getStateResponse.message
+      payload:
+        "$ref": "#/components/schemas/GetStateResponse"
+    GetInfoMessage:
+      name: GetInfoMessage
+      messageId: experiment.getInfo.message
+      payload:
+        "$ref": "#/components/schemas/GetInfo"
+    GetInfoResponseMessage:
+      name: GetInfoResponseMessage
+      messageId: experiment.getInfoResponse.message
+      payload:
+        "$ref": "#/components/schemas/GetInfoResponse"
+    SetValueMessage:
+      name: SetValueMessage
+      messageId: experiment.setValue.message
+      payload:
+        "$ref": "#/components/schemas/SetValue"
+    SetValueResponseMessage:
+      name: SetValueResponseMessage
+      messageId: experiment.setValueResponse.message
+      payload:
+        "$ref": "#/components/schemas/SetValueResponse"
+    CancelMessage:
+      name: CancelMessage
+      messageId: experiment.cancel.message
+      payload:
+        "$ref": "#/components/schemas/Cancel"
+    CancelResponseMessage:
+      name: CancelResponseMessage
+      messageId: experiment.cancelResponse.message
+      payload:
+        "$ref": "#/components/schemas/CancelResponse"
+  schemas:    
+    Submit:
+      title: submit
+      type: object
+      required:
+      - cmd      
+      - agentId
+      - payload      
+      properties:
+        cmd:
+          type: string
+        agentId:
+          type: string
+        payload:
+          type: object
+          required:
+          - type
+          - exp_id
+          - timeslotBase
+          - allocations
+          properties:
+            type:
+              type: string
+              # - $ref: "#/components/schemas/Parameter"
+            exp_id:
+              type: string
+            timeslotBase:
+              type: number
+            allocations:
+              type: array
+              items:
+                type: object
+                required:
+                - expName
+                - parameters
+                - timeSlot
+                properties:
+                  expName:
+                    type: string
+                  parameters:
+                    type: array
+                    items:
+                      $ref: "qn-schema:objects/objects.yaml#/components/schemas/Parameter"
+                  timeSlot:
+                    type: array
+                    items:
+                      type: integer
+    SubmitResponse:
+      title: submitResponse
+      type: object
+      required:
+      - status
+      - expid
+      properties:
+        status:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Status"
+        expid:
+          type: string
+    GetState:
+      title: getState
+      type: object      
+      properties:
+        agentId:
+          type: string
+    GetStateResponse:
+      title: getStateResponse
+      type: object
+      required:
+      - status
+      - state
+      properties:
+        status:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Status"
+        state:
+          type: string
+    GetResult:
+      title: getResult
+      type: object
+      required:
+      - cmd      
+      - agentId
+      - payload   
+      properties:
+        cmd:
+          type: string
+        agentId:
+          type: string
+        payload:
+          type: object
+          required:
+          - expid
+          properties:
+            expid:
+              type: string
+    GetResultResponse:
+      title: getResultResponse
+      type: object
+      required:
+      - status
+      - result
+      properties:
+        status:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Status"
+        result:
+          type: object
+    GetInfo:
+      title: getInfo
+      type: object      
+      properties:
+        agentId:
+          type: string
+    GetInfoResponse:
+      title: getInfoResponse
+      type: object
+      required:
+      - status
+      - info
+      properties:
+        status:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Status"
+        info:
+          type: string
+    SetValue:
+      title: setValue
+      type: object
+      required:
+        - cmd
+        - agentId
+        - payload
+      properties:
+        cmd:
+          type: string
+        agentId:
+          type: string
+        payload:
+          type: object
+          additionalProperties:
+            oneOf:
+              - type: string
+              - type: integer
+              - type: number
+    SetValueResponse:
+      title: setValueResponse
+      type: object
+      required:
+      - status
+      - state
+      properties:
+        status:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Status"
+        state:
+          type: string
+    Cancel:
+      title: cancel
+      type: object
+      required:
+        - cmd
+        - agentId
+        - payload
+      properties:
+        cmd:
+          type: string
+        agentId:
+          type: string
+        payload:
+          type: object
+          required:
+            - exp_id
+          properties:
+            exp_id:
+              type: string
+    CancelResponse:
+      title: cancelResponse
+      type: object
+      required:
+      - status      
+      properties:
+        status:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Status"        
+    CleanUp:
+      title: cleanUp
+      type: object
+      required:
+      - expid
+      - agentId
+      properties:
+        expid:
+          type: string
+        agentId:
+          type: string
+    CleanUpResponse:
+      title: cleanUpResponse
+      type: object
+      required:
+      - status
+      properties:
+        status:
+          $ref: "qn-schema:objects/objects.yaml#/components/schemas/Status"
+    ExperimentRecord:
+      title: experimentRecord
+      type: object
+      required:
+      - id
+      - phase
+      properties:
+        id:
+          type: string
+        phase:
+          type: string
+        start_ts:
+          type: number
+        end_ts:
+          type: number
+        resources:
+          type: string
+        result:
+          type: string
+defaultContentType: application/json

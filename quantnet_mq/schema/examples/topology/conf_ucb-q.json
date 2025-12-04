@@ -1,0 +1,130 @@
+{
+  "systemSettings": {
+    "type": "QNode",
+    "name": "q-node1.berkeley.edu",
+    "ID": "UCB-Q",
+    "controlInterface": "10.0.0.4",
+    "mode": "daemon",
+    "threads": 3,
+    "workers": 3
+  },
+  "qubitSettings": {
+    "qubits": [
+      {
+        "ID": "1",
+        "quantumObject": "trapped_ion",
+        "T1": {"value": 1.5,  "unit": "s"},
+        "T2": {"value": 1.1,  "unit": "s"},
+        "type": "communication"
+      },
+      {
+        "ID": "2",
+        "quantumObject": "trapped_ion",
+        "T1": {"value": 1.5,  "unit": "s"},
+        "T2": {"value": 1.1,  "unit": "s"},
+        "type": "communication"
+      }
+    ],
+    "operations": {
+      "oneQubitGates": [
+        {
+          "gate": "rot_x",
+          "qubits": ["1", "2"]
+        },
+        {
+          "gate": "rot_y",
+          "qubits": ["1", "2"]
+        },
+        {
+          "gate": "rot_z",
+          "qubits": ["1", "2"]
+        }
+      ],
+      "twoQubitGates": [
+        {
+          "gate": "cnot",
+          "qubits": [["1","2"]]
+        },
+        {
+          "gate": "cphase",
+          "qubits": [["1","2"]]
+        }
+      ]
+    }
+  },
+  "matterLightInterfaceSettings": [
+    {
+      "ID": "1",
+      "name": "Interface 1",
+      "entanglement": {
+        "type": "∣Φ+⟩",
+        "rate": {"value": 1000,  "unit": "Hz"}
+      },
+      "flyingQubit": {
+        "type": "polarization",
+        "wavelength": {"value": 1550,  "unit": "nm"}
+      }
+    }
+  ],
+  "channels": [
+    {
+      "ID": "1",
+      "name": "channel_1",
+      "type": "quantum",
+      "direction": "out",
+      "wavelength": {"value": 1550,  "unit": "nm"},
+      "power": 12.1,
+      "neighbor": {
+        "idRef": "urn:quant-net:UCB-SWITCH:1",
+        "systemRef": "UCB-SWITCH",
+        "channelRef": "1",
+        "loss": {"value": 5,  "unit": "dB"}
+      }
+    },
+    {
+      "ID": "2",
+      "name": "channel_2",
+      "type": "classic_clk",
+      "direction": "in",
+      "wavelength": {"value": 1520,  "unit": "nm"},
+      "power": -3.2,
+      "neighbor": {
+        "idRef": "urn:quant-net:UCB-SWITCH:2",
+        "systemRef": "UCB-SWITCH",
+        "channelRef": "2",
+        "loss": {"value": 5,  "unit": "dB"}
+      }
+    },
+    {
+      "ID": "3",
+      "name": "channel_3",
+      "type": "classic_bsm_result",
+      "direction": "in",
+      "wavelength": {"value": 1530,  "unit": "nm"},
+      "power": -4.7,
+      "neighbor": {
+        "idRef": "urn:quant-net:UCB-SWITCH:3",
+        "systemRef": "UCB-SWITCH",
+        "channelRef": "3",
+        "loss": {"value": 5,  "unit": "dB"}
+      }
+    },
+    {
+      "ID": "4",
+      "name": "channel_4",
+      "type": "classic_photon_gen",
+      "direction": "out",
+      "wavelength": {"value": 1540,  "unit": "nm"},
+      "power": -3.2,
+      "neighbor": {
+        "idRef": "urn:quant-net:UCB-SWITCH:4",
+        "systemRef": "UCB-SWITCH",
+        "channelRef": "4",
+        "loss": {"value": 5,  "unit": "dB"}
+      }
+    }
+  ]
+}
+
+
+
