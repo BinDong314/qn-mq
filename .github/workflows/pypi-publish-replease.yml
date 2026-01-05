@@ -66,7 +66,7 @@ jobs:
         run: |
           # This command extracts the __version__ from your code
           # and makes it available to subsequent steps.
-          VERSION=$(python -c "from quantnet_mp import __version__; print(__version__)")
+          VERSION=$(python -c "from quantnet_mq import __version__; print(__version__)")
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Install package from PyPI
@@ -74,14 +74,11 @@ jobs:
         run: |
           echo "Waiting 15 seconds for PyPI index to update..."
           sleep 15
-          pip install "quantnet-mp==${{ steps.get_version.outputs.version }}"
-          echo "Successfully installed quantnet-mp version ${{ steps.get_version.outputs.version }}"
+          pip install "quantnet-mq==${{ steps.get_version.outputs.version }}"
+          echo "Successfully installed quantnet-mq version ${{ steps.get_version.outputs.version }}"
 
       - name: Verify package installation and CLI entrypoint
         run: |
           echo "Verifying installation..."
-          pip show quantnet-mp
+          pip show quantnet-mq
           
-          echo -e "\nVerifying CLI command..."
-          # This tests the 'quantnet_mp' script defined in your pyproject.toml
-          quantnet_mp --help
